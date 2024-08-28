@@ -1,29 +1,15 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useState, useEffect, useRef } from 'react'
-import { setCurrentCamera } from '../redux/slices/capSlice'
-import { setCurrentPage } from '../redux/slices/navSlice'
-import { faCameraAlt } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import '../styles/camera.css'
+import { setCurrentCamera } from '../../redux/slices/capSlice'
+import { setCurrentPage } from '../../redux/slices/navSlice'
+import { availableCameras, freeVideoStream, getVideoStream } from '../auxiliars/cameraFunctions'
 
+import CameraWindow from './cameraWindow'
+import BackButton from '../auxiliars/backButton'
 
+import '../../styles/camera.css'
 
-const availableCameras = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices()
-    return devices.filter(device => device.kind === 'videoinput')
-}
-
-const freeVideoStream = (stream) => {
-    stream.getTracks().forEach(track => track.stop());
-}
-
-const getVideoStream = async (deviceId) => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-        video: { deviceId: deviceId }
-    });
-    return stream
-}
 
 const CameraSelector = () => {
 
@@ -83,22 +69,15 @@ const CameraSelector = () => {
                 ))}
             </select>
 
-            <div className="video-preview">
-                <div className="loading">
-                    <FontAwesomeIcon icon={faCameraAlt} size="3x"/>
-                    <h3>Cargando...</h3>
-                </div>
-                <video ref={videoRef} autoPlay playsInline />
-            </div>
+            <CameraWindow videoRef={videoRef} />
 
             <div className="camera-buttons">
                 <button onClick={handleSelect}>
                     Seleccionar
                 </button>
-                <button className="return" onClick={handleReturn}>
-                    Volver
-                </button>
             </div>
+
+            <BackButton onClick={handleReturn} />
             
         </div>
     )

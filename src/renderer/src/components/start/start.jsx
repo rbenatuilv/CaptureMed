@@ -1,9 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { setCurrentPage } from '../redux/slices/navSlice'
-
-import logo from '../assets/logo.png'
-import '../styles/start.css'
+import { setCurrentPage } from '../../redux/slices/navSlice'
+import logo from '../../assets/logo.png'
+import '../../styles/start.css'
 
 
 const Start = () => {
@@ -20,7 +19,7 @@ const Start = () => {
         <div className="start">
             <img src={logo} alt="Logo" className="logo" />
             <h1>CaptureMed</h1>
-            <h3>Una aplicación de captura de imagenes médicas</h3>
+            <h3>Una aplicación para captura de imagenes médicas</h3>
 
             <button className="start-button" onClick={handleClick}>
                 Iniciar

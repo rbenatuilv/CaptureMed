@@ -4,7 +4,7 @@ const initialState = {
     currentPage: "START",
 }
 
-const allowedPages = ["START", "CAMERA", "CAPTURE"];
+const allowedPages = ["START", "CAMERA", "CAPTURE", "REVIEW"];
 
 const navSlice = createSlice({
     name: 'nav',

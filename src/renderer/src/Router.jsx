@@ -1,5 +1,6 @@
-import Start from "./components/start";
-import CameraSelector from "./components/cameraSelector";
+import Start from "./components/start/start";
+import CameraSelector from "./components/camera/camera";
+import Capture from "./components/capture/capture";
 
 
 const Router = (currentPage) => {
@@ -10,7 +11,9 @@ const Router = (currentPage) => {
         case 'CAMERA':
             return <CameraSelector />;
         case 'CAPTURE':
-            return <div> CAPTURE </div>;
+            return <Capture />;
+        case 'REVIEW':
+            return <div>REVIEW</div>
         default:
             return <Start />;
     }
