@@ -18,9 +18,10 @@ const Capture = () => {
     const cap = useSelector((state) => state.cap)
     const dispatch = useDispatch()
 
-    const [imagesId, setImagesId] = useState(0)
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
+
+
 
     useEffect(() => {
         getVideoStream(cap.camera).then(stream => {
@@ -32,10 +33,15 @@ const Capture = () => {
 
     const handleReturn = (e) => {
         e.preventDefault()
+
+        const stream = videoRef.current.srcObject;
+
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            console.log('Stream stopped');
+        }
         
         dispatch(setCurrentPage('CAMERA'))
-
-        freeVideoStream(videoRef.current.srcObject)
         dispatch(resetImages())
     }
 
@@ -56,19 +62,39 @@ const Capture = () => {
         context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
         const image = canvas.toDataURL('image/png');
 
-        dispatch(addImage({ id: imagesId, image: image }));
+        dispatch(addImage({ image: image }));
 
-        setImagesId(imagesId + 1);
         console.log('Image captured');
     }
 
     const handleNext = (e) => {
         e.preventDefault()
-        
+
+        const stream = videoRef.current.srcObject;
+    
+        // Detener todos los tracks del stream
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            console.log('Stream stopped');
+        }
         dispatch(setCurrentPage('REVIEW'))
 
-        freeVideoStream(videoRef.current.srcObject)
+        
     }
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.code === 'Space') {
+                handleCapture(event);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleCapture]); 
 
     return (
         <div className="capture">

@@ -1,6 +1,7 @@
 import Start from "./components/start/start";
 import CameraSelector from "./components/camera/camera";
 import Capture from "./components/capture/capture";
+import Review from "./components/review/review";
 
 
 const Router = (currentPage) => {
@@ -13,7 +14,7 @@ const Router = (currentPage) => {
         case 'CAPTURE':
             return <Capture />;
         case 'REVIEW':
-            return <div>REVIEW</div>
+            return <Review />;
         default:
             return <Start />;
     }

@@ -30,8 +30,11 @@ const CameraSelector = () => {
 
     useEffect(() => {
         if (selectedCamera) {
-            if (videoStream) {
-                freeVideoStream(videoStream)
+            const stream = videoRef.current.srcObject;
+
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                console.log('Stream stopped');
             }
 
             getVideoStream(selectedCamera).then(stream => {
@@ -48,6 +51,14 @@ const CameraSelector = () => {
 
     const handleSelect = (e) => {
         e.preventDefault()
+
+        const stream = videoRef.current.srcObject;
+    
+        // Detener todos los tracks del stream
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            console.log('Stream stopped');
+        }
 
         dispatch(setCurrentCamera(selectedCamera))
         dispatch(setCurrentPage('CAPTURE'))
