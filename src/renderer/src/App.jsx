@@ -1,7 +1,9 @@
+import React from 'react'
 import Router from './Router'
 import { useSelector } from 'react-redux'
 import { AnimatePresence, motion } from 'framer-motion'
 import './styles/app.css'
+
 
 function App() {
   
@@ -15,9 +17,11 @@ function App() {
                     key={currentPage}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
                 >
-                    <Router />
+                    {Router(currentPage)}
+
                 </motion.div>
             </AnimatePresence>
 

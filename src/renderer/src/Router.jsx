@@ -1,16 +1,16 @@
 import Start from "./components/start";
-import { useSelector } from "react-redux";
+import CameraSelector from "./components/cameraSelector";
 
 
-const Router = () => {
-    const nav = useSelector((state) => state.nav);
+const Router = (currentPage) => {
 
-
-    switch (nav.currentPage) {
+    switch (currentPage) {
         case 'START':
             return <Start />;
         case 'CAMERA':
-            return <div>HOLA</div>;
+            return <CameraSelector />;
+        case 'CAPTURE':
+            return <div> CAPTURE </div>;
         default:
             return <Start />;
     }
