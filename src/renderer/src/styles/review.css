@@ -21,17 +21,30 @@
     width: 50%;
 }
 
-.see-button:disabled {
-    background-color: #3e576b;
-    color: #666;
-    cursor: not-allowed;
-
-}
 
 .review-button-container span {
     margin-left: 15px;
     font-size: larger;
 }
+
+.save-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.save-button:disabled {
+    background-color: #d3d3d3;
+    color: #a9a9a9;
+    cursor: not-allowed;
+}
+
+.save-button span {
+    margin-left: 15px;
+    font-size: larger;
+}
+
 
 .image-modal {
     display: flex;
