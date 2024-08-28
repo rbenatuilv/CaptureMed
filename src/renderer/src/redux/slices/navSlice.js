@@ -4,7 +4,7 @@ const initialState = {
     currentPage: "START",
 }
 
-const allowedPages = ["START", "CAMERA"];
+const allowedPages = ["START", "CAMERA", "CAPTURE"];
 
 const navSlice = createSlice({
     name: 'nav',
@@ -12,6 +12,7 @@ const navSlice = createSlice({
     reducers: {
         setCurrentPage: (state, action) => {
             if (allowedPages.includes(action.payload)) {
+                console.log("Setting current page to: ", action.payload);
                 state.currentPage = action.payload;
             }
         }
