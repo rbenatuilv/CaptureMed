@@ -1,0 +1,13 @@
+:root {
+    background-color: #b0f7fe;
+    color: #2E3B4E;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+}
+
+body, html{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
