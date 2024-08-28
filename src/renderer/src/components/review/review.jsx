@@ -18,20 +18,13 @@ const Review = () => {
 
     const [isDisabledSee, setIsDisabledSee] = useState(true)
     const [seeImage, setSeeImage] = useState(false)
+    const [image, setImage] = useState(null)
 
-
-    useEffect(() => {
-        if (cap.selectedCount === 1){
-            setIsDisabledSee(false)
-        } else {
-            setIsDisabledSee(true)
-        }
-    }, [cap.selectedCount])
     
 
-    const handleSee = (e) => {
+    const closeModal = (e) => {
         e.preventDefault()
-        setSeeImage(!seeImage)
+        setSeeImage(false)
     }
 
 
@@ -41,26 +34,35 @@ const Review = () => {
         dispatch(setCurrentPage('CAPTURE'))
     }
 
+    const openModal = (image) => {
+        setSeeImage(true)
+        setImage(image)
+    }
+
+    const saveSelection = (e) => {
+        e.preventDefault()
+        const selectedImages = cap.images.filter((image) => image.selected)
+        
+    }
+
 
     return (
         <div className="review">
             <h1>Seleccionar imágenes</h1>
-            <ImageGrid clickable={true}/>
+            <ImageGrid clickable={true} openModal={openModal}/>
             <BackButton onClick={handleReturn}/>
 
-            <div className="button-container">
-                <button className="see-button" disabled={isDisabledSee} onClick={handleSee}>
-                    <FontAwesomeIcon icon={faEye} size="2x"/>
-                    <span>Ver Imagen</span>
-                </button>
-                <button>
+            <div className="review-button-container">
+                <button
+                    onClick={saveSelection}
+                >
                     <FontAwesomeIcon icon={faSave} size="2x"/>
                     <span>Guardar selección</span>
                 </button>
             </div>
 
             {seeImage && (
-                <ImageModal image={cap.firstSelected} onClose={handleSee}/>
+                <ImageModal image={image} onClose={closeModal}/>
             )}
             
         </div>
