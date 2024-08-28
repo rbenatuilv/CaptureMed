@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
 :root {
     background-color: #b0f7fe;
-    color: #2E3B4E;
-    font-family: 'Roboto', sans-serif;
+    color: #073C67;
+    
     height: 100vh;
 }
 
@@ -10,4 +12,5 @@ body, html{
     padding: 0;
     box-sizing: border-box;
     height: 100%;
+    font-family: 'Lato', sans-serif;
 }

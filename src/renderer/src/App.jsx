@@ -20,7 +20,9 @@ function App() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
                 >
+                <div className="main">
                     {Router(currentPage)}
+                </div>
 
                 </motion.div>
             </AnimatePresence>
