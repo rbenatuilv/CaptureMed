@@ -1,34 +1,34 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
+import React from 'react'
+import Router from './Router'
+import { useSelector } from 'react-redux'
+import { AnimatePresence, motion } from 'framer-motion'
+import './styles/app.css'
+
 
 function App() {
-  const ipcHandle = () => window.electron.ipcRenderer.send('ping')
+  
+    const currentPage = useSelector((state) => state.nav.currentPage)
 
-  return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <div className="creator">Powered by electron-vite</div>
-      <div className="text">
-        Build an Electron app with <span className="react">React</span>
-      </div>
-      <p className="tip">
-        Please try pressing <code>F12</code> to open the devTool
-      </p>
-      <div className="actions">
-        <div className="action">
-          <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-            Documentation
-          </a>
+    return (
+        <div className="app">
+
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentPage}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                >
+                <div className="main">
+                    {Router(currentPage)}
+                </div>
+
+                </motion.div>
+            </AnimatePresence>
+
         </div>
-        <div className="action">
-          <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
-          </a>
-        </div>
-      </div>
-      <Versions></Versions>
-    </>
-  )
+    )
 }
 
 export default App

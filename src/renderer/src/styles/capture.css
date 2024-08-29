@@ -1,0 +1,31 @@
+.capture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    
+}
+
+.capture-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.button-container button {
+    width: 45%;
+    padding: 10px;
+    font-size: 01em;
+}
+

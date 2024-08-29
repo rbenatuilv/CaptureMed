@@ -1,0 +1,96 @@
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15vh, 1fr));
+    grid-gap: 10px;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 50vh;
+    padding: 10px;
+    width: 40vw;
+}
+
+.image-grid-click {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25vh, 1fr));
+    grid-gap: 10px;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 55vh;
+    padding: 10px;
+    width: 70vw;
+}
+
+/* Personalización de la barra de desplazamiento */
+.image-grid::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento */
+    
+}
+
+.image-grid::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color del fondo de la barra de desplazamiento */
+    border: 1px solid #073C67; /* Borde de la barra de desplazamiento */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.image-grid::-webkit-scrollbar-thumb {
+    background: #073C67; /* Color de la barra de desplazamiento */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.image-grid::-webkit-scrollbar-thumb:hover {
+    background: #2b84cc; /* Color de la barra de desplazamiento al pasar el mouse */
+}
+
+.image-container {
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* Mantiene la relación de aspecto cuadrada */
+    position: relative;
+}
+
+.image-container-click {
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* Mantiene la relación de aspecto 4:3 */
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.hover-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: none;
+    background-color: #073c67de;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px
+}
+
+.image-container-click:hover .hover-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container-click:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.image-container-click.selected {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    object-fit: contain; /* Escala la imagen para llenar el contenedor */
+}

@@ -1,0 +1,51 @@
+.msg-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.msg-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    width: 35%; /* Cambia el ancho del modal */
+    height: 30%; /* Cambia la altura del modal */
+    position: relative;
+    overflow-y: auto; /* Añade scroll si el contenido es demasiado grande */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.msg-modal-content h2 {
+    font-size: x-large;
+}
+
+.close-button {
+    cursor: pointer;
+    background-color: #fa8e97;
+    color: #020202;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    z-index: 10; 
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-button:hover {
+    background-color: #bd4c58;
+}
+

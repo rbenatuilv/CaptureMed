@@ -1,0 +1,23 @@
+.start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.start h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.start h3 {
+
+    margin-bottom: 40px;
+}
+
+.logo {
+    width: 15vw;
+    border-radius: 50%;
+    object-fit: cover;
+}
