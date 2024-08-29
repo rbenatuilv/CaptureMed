@@ -1,10 +1,10 @@
 {
   "name": "capturemed",
   "version": "1.0.0",
-  "description": "An Electron application with React",
+  "description": "Aplicación para captura de imágenes médicas",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "rbenatuilv",
+  "homepage": "https://github.com/rbenatuilv/CaptureMed",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",

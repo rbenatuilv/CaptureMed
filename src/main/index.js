@@ -1,13 +1,14 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/icon2.png?asset'
 import API from './API'
 
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    title: 'CaptureMed',
     width: 800,
     height: 650,
     show: false,
@@ -42,7 +43,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.rbenatuilv.capturemed')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

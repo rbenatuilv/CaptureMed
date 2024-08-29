@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: capturemed
+appId: com.rbenatuilv.capturemed
+productName: CaptureMed
 directories:
   buildResources: build
 files:
@@ -11,7 +11,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: capturemed
+  executableName: CaptureMed
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
