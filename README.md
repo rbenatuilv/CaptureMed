@@ -1,6 +1,6 @@
 # CaptureMed
 
-An Electron application with React
+Capturador de imágenes médicas
 
 ## Recommended IDE Setup
 
