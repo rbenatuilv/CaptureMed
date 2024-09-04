@@ -34,9 +34,6 @@ linux:
     - deb
   maintainer: electronjs.org
   category: Utility
-  arch:
-    - ia32
-    - x64
 appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
