@@ -20,6 +20,10 @@ const Capture = () => {
 
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
+    const previewTimeoutRef = useRef(null);
+    
+    const [showPreview, setShowPreview] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
 
 
 
@@ -33,6 +37,11 @@ const Capture = () => {
 
     const handleReturn = (e) => {
         e.preventDefault()
+
+        // Limpiar timeout si existe
+        if (previewTimeoutRef.current) {
+            clearTimeout(previewTimeoutRef.current);
+        }
 
         const stream = videoRef.current.srcObject;
 
@@ -64,11 +73,31 @@ const Capture = () => {
 
         dispatch(addImage({ image: image }));
 
+        // Cancelar timeout anterior si existe
+        if (previewTimeoutRef.current) {
+            clearTimeout(previewTimeoutRef.current);
+        }
+
+        // Mostrar preview de la foto capturada
+        setPreviewImage(image);
+        setShowPreview(true);
+        
+        // Ocultar preview después de 1.5 segundos
+        previewTimeoutRef.current = setTimeout(() => {
+            setShowPreview(false);
+            previewTimeoutRef.current = null;
+        }, 1500);
+
         console.log('Image captured');
     }
 
     const handleNext = (e) => {
         e.preventDefault()
+
+        // Limpiar timeout si existe
+        if (previewTimeoutRef.current) {
+            clearTimeout(previewTimeoutRef.current);
+        }
 
         const stream = videoRef.current.srcObject;
     
@@ -79,9 +108,16 @@ const Capture = () => {
         }
         dispatch(setCurrentPage('REVIEW'))
 
-        
-    }
+    useEffect(() => {
+        return () => {
+            // Limpiar timeout al desmontar
+            if (previewTimeoutRef.current) {
+                clearTimeout(previewTimeoutRef.current);
+            }
+        };
+    }, []);
 
+}
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.code === 'Space') {
@@ -101,7 +137,9 @@ const Capture = () => {
             <h1>Capturador</h1>     
 
             <div className="capture-page">
-                <CameraWindow videoRef={videoRef} />
+                <div className="camera-container">
+                    <CameraWindow videoRef={videoRef} />
+                </div>
                 <ImageGrid />
             </div>
 
@@ -116,6 +154,12 @@ const Capture = () => {
             </div>
 
             <BackButton onClick={handleReturn} />
+
+            {showPreview && previewImage && (
+                <div className="photo-preview-overlay">
+                    <img src={previewImage} alt="Photo preview" className="photo-preview" />
+                </div>
+            )}
 
         </div>
     )
