@@ -15,7 +15,7 @@ const capSlice = createSlice({
         },
         addImage: (state, action) => {
             state.imagesId += 1;
-            state.images.push({ 
+            state.images.unshift({ 
                 id: state.imagesId, 
                 image: action.payload.image,
                 selected: false
