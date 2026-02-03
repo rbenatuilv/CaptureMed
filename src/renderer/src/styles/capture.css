@@ -17,8 +17,32 @@
 .camera-container {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 12px;
+}
+
+.camera-reload-button {
+    width: 30%;
+    max-width: 360px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.camera-reload-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.camera-reload-button:disabled {
+    background-color: #8893a3;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .photo-preview-overlay {
