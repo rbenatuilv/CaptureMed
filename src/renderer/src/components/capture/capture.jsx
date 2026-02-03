@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPage } from "../../redux/slices/navSlice";
 import { getVideoStream, freeVideoStream } from "../auxiliars/cameraFunctions";
-import { faCamera, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCamera, faCheck, faCameraRotate } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { addImage, resetImages } from "../../redux/slices/capSlice";
 
@@ -20,32 +20,69 @@ const Capture = () => {
 
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
+    const previewTimeoutRef = useRef(null);
+    
+    const [showPreview, setShowPreview] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
+    const [isReloadingCamera, setIsReloadingCamera] = useState(false);
 
+    const initializeCameraStream = useCallback(async () => {
+        if (!cap.camera || !videoRef.current) {
+            return;
+        }
 
+        try {
+            const currentStream = videoRef.current.srcObject;
+            if (currentStream) {
+                freeVideoStream(currentStream);
+            }
+
+            const stream = await getVideoStream(cap.camera);
+            videoRef.current.srcObject = stream;
+        } catch (error) {
+            console.error('No se pudo iniciar la cámara seleccionada', error);
+        }
+    }, [cap.camera]);
+
+    const clearPreviewTimeout = useCallback(() => {
+        if (previewTimeoutRef.current) {
+            clearTimeout(previewTimeoutRef.current);
+            previewTimeoutRef.current = null;
+        }
+    }, []);
 
     useEffect(() => {
-        getVideoStream(cap.camera).then(stream => {
-            videoRef.current.srcObject = stream
-        } ).catch(err => console.error(err))    
+        initializeCameraStream();
         const canvas = document.createElement('canvas');
         canvasRef.current = canvas;
-    }, [cap.camera]);
+    }, [initializeCameraStream]);
+
+    useEffect(() => {
+        return () => {
+            clearPreviewTimeout();
+            const stream = videoRef.current?.srcObject;
+            if (stream) {
+                freeVideoStream(stream);
+            }
+        };
+    }, [clearPreviewTimeout]);
 
     const handleReturn = (e) => {
         e.preventDefault()
 
-        const stream = videoRef.current.srcObject;
+        clearPreviewTimeout();
+
+        const stream = videoRef.current?.srcObject;
 
         if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-            console.log('Stream stopped');
+            freeVideoStream(stream);
         }
         
         dispatch(setCurrentPage('CAMERA'))
         dispatch(resetImages())
     }
 
-    const handleCapture = (e) => {
+    const handleCapture = useCallback((e) => {
         e.preventDefault()
 
         if (!videoRef.current) {
@@ -64,23 +101,49 @@ const Capture = () => {
 
         dispatch(addImage({ image: image }));
 
+        clearPreviewTimeout();
+
+        // Mostrar preview de la foto capturada
+        setPreviewImage(image);
+        setShowPreview(true);
+        
+        // Ocultar preview después de 1.5 segundos
+        previewTimeoutRef.current = setTimeout(() => {
+            setShowPreview(false);
+            previewTimeoutRef.current = null;
+        }, 1500);
+
         console.log('Image captured');
-    }
+    }, [dispatch, clearPreviewTimeout]);
 
     const handleNext = (e) => {
         e.preventDefault()
 
-        const stream = videoRef.current.srcObject;
+        clearPreviewTimeout();
+
+        const stream = videoRef.current?.srcObject;
     
         // Detener todos los tracks del stream
         if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-            console.log('Stream stopped');
+            freeVideoStream(stream);
         }
         dispatch(setCurrentPage('REVIEW'))
-
-        
     }
+
+    const handleReloadCamera = async (e) => {
+        e.preventDefault();
+
+        if (!cap.camera || isReloadingCamera) {
+            return;
+        }
+
+        setIsReloadingCamera(true);
+        try {
+            await initializeCameraStream();
+        } finally {
+            setIsReloadingCamera(false);
+        }
+    };
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -101,7 +164,17 @@ const Capture = () => {
             <h1>Capturador</h1>     
 
             <div className="capture-page">
-                <CameraWindow videoRef={videoRef} />
+                <div className="camera-container">
+                    <button
+                        type="button"
+                        className="camera-reload-button"
+                        onClick={handleReloadCamera}
+                        disabled={!cap.camera || isReloadingCamera}
+                    >
+                        {isReloadingCamera ? 'Reconectando cámara...' : <FontAwesomeIcon icon={faCameraRotate} size="2x"/>}
+                    </button>
+                    <CameraWindow videoRef={videoRef} />
+                </div>
                 <ImageGrid />
             </div>
 
@@ -116,6 +189,12 @@ const Capture = () => {
             </div>
 
             <BackButton onClick={handleReturn} />
+
+            {showPreview && previewImage && (
+                <div className="photo-preview-overlay">
+                    <img src={previewImage} alt="Photo preview" className="photo-preview" />
+                </div>
+            )}
 
         </div>
     )
